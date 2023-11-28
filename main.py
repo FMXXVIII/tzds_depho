@@ -5,9 +5,6 @@
 #pip install email-validator
 
 
-
-#Odio
-
 from fakepintrest import app
 
 
