@@ -1,0 +1,58 @@
+{% extends "template.html" %}
+
+
+
+{%block content%}
+
+<div class="container">
+    {% include "navbar.html" %}
+
+    <div class="bloco-add-img">
+        <h2>{{usuario.username}} - Enviar foto</h2>
+
+
+        {% if form %}
+        <form class="bloco-arquivo" method="POST" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+
+
+            <div class="bloco-arquivo">
+                <label for="photo" class="botao-arquivo">
+                    {{ form.photo.label(for="photo", class="botao-arquivo") }}
+                    {{ form.photo(class="input-arquivo") }}
+                </label>
+                <span id="imagem-arquivo" class=""></span>
+            </div>
+
+            {{ form.submit_button(class="botao-login") }}
+        </form>
+        {% endif %}
+
+
+    </div>
+</div>
+
+<div class="conteudo">
+    {%for foto in usuario.photo%}
+    <div class="bloco-imagem">
+        <img src="{{url_for('static', filename='fotos_posts/{}'.format(foto.image))}}">
+    </div>
+    {%endfor%}
+
+</div>
+
+{% if form %}
+<script>
+    let input = document.getElementById("photo");
+    let imagemArquivo = document.getElementById("imagem-arquivo");
+
+    input.addEventListener("change", () => {
+        let inputImagem = document.querySelector("input[type=file]").files[0];
+
+        imagemArquivo.classList.add("visivel");
+        imagemArquivo.innerText = inputImagem.name;
+    });
+</script>
+{%endif%}
+
+{%endblock%}
