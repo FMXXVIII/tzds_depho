@@ -13,7 +13,7 @@ def homepage():
     if form_login.validate_on_submit():
         user = User.query.filter_by(email=form_login.email.data).first()
         
-        if user and bcrypt.check_password_hash(user.password, form_login.password.data):
+        if user and bcrypt.check_password_hash(user.password.encode("utf-8"), form_login.password.data):
             login_user(user, remember=True)
             return redirect(url_for("perfil", id_usuario=user.id))
             
@@ -27,7 +27,7 @@ def criarconta():
     
     if form_create_account.validate_on_submit():
             
-        password = bcrypt.generate_password_hash(form_create_account.password.data)
+        password = bcrypt.generate_password_hash(form_create_account.password.data).decode("utf-8")
         # bcrypt.check_password_hash
         
         user = User(username= form_create_account.username.data, password= password, email= form_create_account.email.data)
